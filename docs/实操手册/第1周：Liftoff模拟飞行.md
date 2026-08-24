@@ -54,7 +54,7 @@
 <p >
   <video width="950" controls>
     <source src="
-    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/j30v2-wiki/video/Radar_positioning_test.mp4" type="video/mp4">
+    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/1/%E6%A0%A1%E5%87%86.mp4" type="video/mp4">
   </video>
 </p>
 
@@ -65,7 +65,7 @@
 <p >
   <video width="950" controls>
     <source src="
-    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/j30v2-wiki/video/Radar_positioning_test.mp4" type="video/mp4">
+    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/1/%E7%BE%8E%E5%9B%BD%E6%89%8B.mp4" type="video/mp4">
   </video>
 </p>
 
@@ -78,7 +78,7 @@
 <p >
   <video width="950" controls>
     <source src="
-    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/j30v2-wiki/video/Radar_positioning_test.mp4" type="video/mp4">
+    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/1/%E9%A3%9E%E8%A1%8C%E6%A8%A1%E5%BC%8F%E9%80%89%E6%8B%A9.mp4" type="video/mp4">
   </video>
 </p>
 
@@ -87,7 +87,7 @@
 <p >
   <video width="950" controls>
     <source src="
-    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/j30v2-wiki/video/Radar_positioning_test.mp4" type="video/mp4">
+    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/1/%E7%AC%AC%E4%B8%89%E8%A7%86%E8%A7%92.mp4" type="video/mp4">
   </video>
 </p>
 
@@ -98,7 +98,7 @@
 <p >
   <video width="950" controls>
     <source src="
-    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/j30v2-wiki/video/Radar_positioning_test.mp4" type="video/mp4">
+    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/1/level%E6%A8%A1%E5%BC%8F.mp4" type="video/mp4">
   </video>
 </p>
 
@@ -109,7 +109,7 @@
 <p >
   <video width="950" controls>
     <source src="
-    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/j30v2-wiki/video/Radar_positioning_test.mp4" type="video/mp4">
+    https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/1/%E6%A8%A1%E6%8B%9F%E9%A3%9E%E8%A1%8C%E8%80%83%E6%A0%B8.mp4" type="video/mp4">
   </video>
 </p>
 
