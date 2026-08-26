@@ -10,7 +10,7 @@
 |实践二：PX4ctrl 8字飞行|通过设置期望轨迹点，控制无人机按照预定路径飞行，观察无人机位置、姿态和控制状态变化|掌握轨迹跟踪控制，理解位置环控制算法|
 
 <div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 实践准备：确保已完成第8周的Gazebo仿真环境搭建，PX4\-Autopilot和MAVROS已正确安装并能够正常运行。所有实践均在Gazebo仿真环境中进行，无需真机。
+  <strong>​​​💡 实践准备：确保已完成第8周的Gazebo仿真环境搭建，PX4-Autopilot和MAVROS已正确安装并能够正常运行。所有实践均在Gazebo仿真环境中进行，无需真机。
   </strong>
 </div>
 
