@@ -7,6 +7,14 @@
   </strong>
 </div>
 
+## 官方操作视频
+
+<p >
+  <video width="950" controls>
+    <source src="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/11/%E5%9B%9B%E3%80%81%E5%88%9A%E4%BD%93%E5%88%9B%E5%BB%BA%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86.mp4" type="video/mp4">
+  </video>
+</p>
+
 # 实践一：创建刚体
 
 ## 1\.1 前置条件
