@@ -9,13 +9,9 @@
 |实践一：VMware虚拟机配置|安装VMware Workstation虚拟化软件，创建Ubuntu Linux虚拟机环境|为无人机仿真与开发提供运行平台|
 |实践二：Gazebo + PX4仿真环境搭建|安装Gazebo仿真平台及相关依赖环境，完成PX4 SITL仿真|掌握仿真软件在无人机系统开发中的作用|
 
-<div style="background-color: #f1f1d1ff; border-left: 5px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 实践准备：VMware虚拟机、Gazebo仿真器。
-
-</strong>
+<div style="background-color:#edf2ff; border:1px solid #82aaff; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>实践准备：</strong> VMware虚拟机、Gazebo仿真器。
 </div>
-
-
 
 # 实践一：VMware虚拟机配置
 
@@ -31,7 +27,10 @@
 
 3. 命名虚拟机，并选择安装位置（建议选择空间充足的磁盘分区）
 
-**注意：**虚拟机安装位置需要预留足够的磁盘空间，建议至少100GB以上，避免后续安装ROS、PX4等开发环境时空间不足。
+<div style="background-color:#ffffe6; border:2px solid #ffed66; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  💡 <strong>注意：</strong>虚拟机安装位置需要预留足够的磁盘空间，建议至少100GB以上，避免后续安装ROS、PX4等开发环境时空间不足。
+</div>
+
 
 <div style="display:flex; gap:12px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:48%; text-align:center; max-width:44%;">
@@ -65,7 +64,9 @@
 
 6. **检查并完成**：确认所有设置无误后点击完成，等待虚拟机安装完毕
 
-**参数建议：**CPU核心数建议分配主机的50%\-70%，内存建议分配主机的50%，这样既能保证虚拟机流畅运行，又不会影响主机系统的正常使用。
+<div style="background-color:#edf2ff; border:1px solid #82aaff; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  💡 <strong>参数建议：</strong>CPU核心数建议分配主机的50%-70%，内存建议分配主机的50%，这样既能保证虚拟机流畅运行，又不会影响主机系统的正常使用。
+</div>
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:50%; text-align:center; max-width:42%;">
@@ -137,13 +138,15 @@ git clone --recursive --branch v1.16.2 https://github.com/PX4/PX4-Autopilot.git
 
 3. 克隆完毕后，在当前目录会自动生成名为PX4\-Autopilot的源码文件夹
 
-**参数说明：**
+<div style="background-color:#edf2ff; border:1px solid #82aaff; padding:20px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
+  💡 <strong>参数说明：</strong>
+  <div style="margin‑top:12px;">
+    <div style="margin‑bottom:10px;">1. <code style="background:#f3f4f6;padding:2px 8px;border‑radius:4px;">--recursive</code>：递归克隆所有子模块，PX4依赖大量第三方库，必须使用此参数</div>
+    <div style="margin‑bottom:10px;">2. <code style="background:#f3f4f6;padding:2px 8px;border‑radius:4px;">--branch v1.16.2</code>：指定克隆v1.16.2稳定版本，确保与课程内容一致</div>
+    <div>3. 克隆过程可能需要较长时间，请耐心等待，确保网络连接稳定</div>
+  </div>
+</div>
 
-1\. `--recursive`：递归克隆所有子模块，PX4依赖大量第三方库，必须使用此参数
-
-2\. `--branch v1.16.2`：指定克隆v1\.16\.2稳定版本，确保与课程内容一致
-
-3\. 克隆过程可能需要较长时间，请耐心等待，确保网络连接稳定
 
 <figure style="flex:1; text-align:center;">
     <img src="../images/week_8/8-9.jpg" width="950">
@@ -166,17 +169,14 @@ roslaunch px4 mavros_posix_sitl.launch
 
 2. 等待Gazebo仿真页面启动，确认仿真环境正常加载
 
-<div style="background-color: #f1f1d1ff; border-left: 5px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 说明：首次启动时需要编译PX4固件，可能需要较长时间（10\-20分钟），请耐心等待。后续启动会直接使用已编译的文件，速度会快很多。
-
-</strong>
+<div style="background-color:#edf2ff; border:1px solid #82aaff; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  💡 <strong>说明：</strong>首次启动时需要编译PX4固件，可能需要较长时间（10‑20分钟），请耐心等待。后续启动会直接使用已编译的文件，速度会快很多。
 </div>
 
-<div style="background-color: #f1f1d1ff; border-left: 5px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 验证：启动成功后，Gazebo窗口会显示无人机模型，终端会输出PX4启动日志和MAVROS连接信息。
-
-</strong>
+<div style="background-color:#edf9ed; border:1px solid #72d272; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  ✅ <strong>验证：</strong>启动成功后，Gazebo窗口会显示无人机模型，终端会输出PX4启动日志和MAVROS连接信息。
 </div>
+
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:60%; text-align:center; max-width:60%;">
@@ -206,21 +206,17 @@ rostopic list
 
 该命令用于检验MAVROS与PX4仿真是否成功建立通信，确认无人机相关话题正常发布。
 
-<div style="background-color: #f1f1d1ff; border-left: 5px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 验证：正常情况下，话题列表中应包含以下关键话题：
-
-1\. `/mavros/state`：飞控状态信息
-
-2\. `/mavros/imu/data`：IMU传感器数据
-
-3\. `/mavros/local_position/pose`：本地位置信息
-
-4\. `/mavros/cmd/arming`：解锁/上锁服务
-
-</strong>
+<div style="background-color:#edf9ed; border:1px solid #72d272; padding:20px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
+  ✅ <strong>验证：</strong>正常情况下，话题列表中应包含以下关键话题：
+  <ol style="padding-left:28px;margin:10px 0;">
+    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">/mavros/state</code>：飞控状态信息</li>
+    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">/mavros/imu/data</code>：IMU传感器数据</li>
+    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">/mavros/local_position/pose</code>：本地位置信息</li>
+    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">/mavros/cmd/arming</code>：解锁/上锁服务</li>
+  </ol>
+  如果这些话题都存在，说明MAVROS与PX4通信正常。
 </div>
 
-如果这些话题都存在，说明MAVROS与PX4通信正常。
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:60%; text-align:center; max-width:57%;">
@@ -256,18 +252,16 @@ rosservice call /mavros/cmd/arming "value: false"
 
 通过这两个服务调用，可以测试无人机的解锁和上锁功能是否正常。
 
-<div style="background-color: #f1f1d1ff; border-left: 5px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 注意：在仿真环境中解锁后，无人机的电机会开始旋转，但不会实际飞行（因为没有起飞指令）。在真机操作时，解锁后务必注意安全，远离螺旋桨。
-  </strong>
+<div style="background-color:#ffffe8; border:1px solid #f8e248; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  💡 <strong>注意：</strong>在仿真环境中解锁后，无人机的电机会开始旋转，但不会实际飞行（因为没有起飞指令）。在真机操作时，解锁后务必注意安全，远离螺旋桨。
 </div>
 
-<div style="background-color: #f1f1d1ff; border-left: 5px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 验证：解锁成功后，终端会返回"success: true"，Gazebo中无人机的电机会开始旋转；上锁后电机停止旋转。
-  </strong>
+<div style="background-color:#edf9ed; border:1px solid #72d272; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  ✅ <strong>验证：</strong>解锁成功后，终端会返回<code>"success: true"</code>，Gazebo中无人机的电机会开始旋转；上锁后电机停止旋转。
 </div>
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
-  <div style="flex-shrink:0; flex-basis:60%; text-align:center; max-width:50%;">
+  <div style="flex-shrink:0; flex-basis:60%; text-align:center; max-width:50.5%;">
     <img src="../images/week_8/8-13.jpg"
          style="max-height:320px; object-fit:contain; width:100%; height:auto;">
     <div style="margin-top:12px; font-size:1.1em;">启动命令终端截图</div>
@@ -313,10 +307,8 @@ catkin_make
 ```Plain Text
 source devel/setup.bash
 ```
-<div style="background-color: #f1f1d1ff; border-left: 8px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 说明：fly功能包包含了无人机飞行控制的相关节点和脚本，包括真实位姿获取、飞行测试、自动起飞和自动降落等功能。每次修改代码后都需要重新编译并source环境变量。
-
-</strong>
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:18px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
+  💡 <strong>说明：</strong>fly功能包包含了无人机飞行控制的相关节点和脚本，包括真实位姿获取、飞行测试、自动起飞和自动降落等功能。每次修改代码后都需要重新编译并<code>source</code>环境变量。
 </div>
 
 <figure style="flex:1; text-align:center;">
@@ -348,12 +340,10 @@ roslaunch px4 mavros_posix_sitl.launch
 
 2. 等待几秒后，查看Gazebo仿真软件是否正常启动，确认无人机模型已加载
 
-
-
-<div style="background-color: #f1f1d1ff; border-left: 8px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 提示：这一步与之前的基础测试相同，但在期望点位置控制中，我们需要同时运行更多的节点，因此使用terminator的多页面功能来管理不同的终端。
-</strong>
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:18px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
+  💡 <strong>提示：</strong>这一步与之前的基础测试相同，但在期望点位置控制中，我们需要同时运行更多的节点，因此使用<code>terminator</code>的多页面功能来管理不同的终端。
 </div>
+
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:65%;">
@@ -388,14 +378,14 @@ roslaunch px4 mavros_posix_sitl.launch
 ```Plain Text
 ./sh_file/takeoff.sh
 ```
-
-**节点说明：**
-
-1\. `run_groundtruth.sh`：获取Gazebo中无人机的真实位姿，用于位置控制的反馈
-
-2\. `fly_test.sh`：启动飞行控制节点，监听期望位置指令并执行控制算法
-
-3\. `takeoff.sh`：发送自动起飞指令，无人机会上升到设定高度并悬停
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
+  💡 <strong>节点说明：</strong>
+  <ol style="padding-left:24px; margin:8px 0;">
+    <li><code>run_groundtruth.sh</code>：获取Gazebo中无人机的真实位姿，用于位置控制的反馈</li>
+    <li><code>fly_test.sh</code>：启动飞行控制节点，监听期望位置指令并执行控制算法</li>
+    <li><code>takeoff.sh</code>：发送自动起飞指令，无人机会上升到设定高度并悬停</li>
+  </ol>
+</div>
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:47%;">
@@ -466,19 +456,18 @@ trajectory_id: 1"
 ```Plain Text
 ./sh_file/land.sh
 ```
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
+  💡 <strong>参数说明：</strong>
+  <ol style="padding-left:24px; margin:8px 0;">
+    <li><code>-r 20</code>：以20Hz的频率持续发布指令</li>
+    <li><code>/setpoints_cmd</code>：期望位置指令话题</li>
+    <li><code>position: {x: 5.0, y: 0.0, z: 1.0}</code>：目标位置坐标，单位为米</li>
+    <li>修改x、y、z的值即可控制无人机飞到不同位置</li>
+  </ol>
+</div>
 
-**参数说明：**
-
-1\. `-r 20`：以20Hz的频率持续发布指令
-
-2\. `/setpoints_cmd`：期望位置指令话题
-
-3\. `position: {x: 5.0, y: 0.0, z: 1.0}`：目标位置坐标，单位为米
-
-4\. 修改x、y、z的值即可控制无人机飞到不同位置
-
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 验证：发布指令后，Gazebo中的无人机会平稳飞向目标位置，到达后悬停。执行降落指令后，无人机会缓慢下降并接触地面，随后自动上锁。</strong>
+<div style="background-color:#edfbeb; border:1px solid #76d870; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
+  ✅ <strong>验证：</strong>发布指令后，Gazebo中的无人机会平稳飞向目标位置，到达后悬停。执行降落指令后，无人机会缓慢下降并接触地面，随后自动上锁。
 </div>
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
@@ -541,9 +530,8 @@ roslaunch px4 mavros_posix_sitl.launch
 
 2. 等待QGC启动，确认与无人机成功连接（界面左上角显示连接状态）
 
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 说明：QGroundControl会自动通过UDP连接到PX4 SITL仿真，无需手动配置连接参数。连接成功后，界面会显示无人机的姿态、位置、电池等实时信息。
-  </strong>
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
+  💡 <strong>说明：</strong>QGroundControl会自动通过UDP连接到PX4 SITL仿真，无需手动配置连接参数。连接成功后，界面会显示无人机的姿态、位置、电池等实时信息。
 </div>
 
 <figure style="flex:1; text-align:center;">
@@ -570,9 +558,8 @@ roslaunch px4 mavros_posix_sitl.launch
 
 - **升降**：控制无人机上升和下降
 
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 操作提示：虚拟摇杆的操作方式与真实遥控器类似，左摇杆控制升降和偏航，右摇杆控制前后和左右横滚。在仿真环境中可以放心练习，熟悉操作手感。
-  </strong>
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
+  💡 <strong>操作提示：</strong>虚拟摇杆的操作方式与真实遥控器类似，左摇杆控制升降和偏航，右摇杆控制前后和左右横滚。在仿真环境中可以放心练习，熟悉操作手感。
 </div>
 
 <figure style="flex:1; text-align:center;">
@@ -587,9 +574,8 @@ roslaunch px4 mavros_posix_sitl.launch
 2. 无人机平稳垂直下降，接触地面后自动上锁
 
 
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 验证：点击降落后，无人机会缓慢垂直下降，接触地面后电机停止旋转并自动上锁。整个过程平稳安全，与真机操作流程一致。
-  </strong>
+<div style="background-color:#edfbeb; border:1px solid #76d870; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
+  ✅ <strong>验证：</strong>点击降落后，无人机会缓慢垂直下降，接触地面后电机停止旋转并自动上锁。整个过程平稳安全，与真机操作流程一致。
 </div>
 
 <figure style="flex:1; text-align:center;">
