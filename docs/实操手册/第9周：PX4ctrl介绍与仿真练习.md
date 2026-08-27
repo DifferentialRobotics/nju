@@ -9,10 +9,10 @@
 |实践一：PX4ctrl自动起飞悬停和降落|完成无人机自主起飞、定点悬停以及自动降落全过程控制|掌握PX4ctrl基础控制流程，理解状态机切换逻辑|
 |实践二：PX4ctrl 8字飞行|通过设置期望轨迹点，控制无人机按照预定路径飞行，观察无人机位置、姿态和控制状态变化|掌握轨迹跟踪控制，理解位置环控制算法|
 
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 实践准备：确保已完成第8周的Gazebo仿真环境搭建，PX4-Autopilot和MAVROS已正确安装并能够正常运行。所有实践均在Gazebo仿真环境中进行，无需真机。
-  </strong>
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>实践准备：</strong>确保已完成第8周的Gazebo仿真环境搭建，PX4-Autopilot和MAVROS已正确安装并能够正常运行。所有实践均在Gazebo仿真环境中进行，无需真机。
 </div>
+
 
 # 实践一：PX4ctrl自动起飞悬停和降落
 
@@ -39,11 +39,10 @@ catkin_make
 ```Plain Text
 source devel/setup.bash
 ```
-
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 说明：fly功能包包含了PX4ctrl控制器和飞行测试程序。catkin_make是ROS的编译命令，会自动编译工作空间下的所有功能包。每次重新编译后都需要source setup.bash来更新环境变量。
-  </strong>
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>说明：</strong>fly功能包包含了PX4ctrl控制器和飞行测试程序。catkin_make是ROS的编译命令，会自动编译工作空间下的所有功能包。每次重新编译后都需要source setup.bash来更新环境变量。
 </div>
+
 
 <figure style="flex:1; text-align:center;">
     <img src="../images/week_9/9-1.png" width="950">
@@ -74,14 +73,15 @@ roslaunch px4 mavros_posix_sitl.launch
 
 2. 等待几秒后，查看Gazebo仿真软件是否正常启动，确认无人机模型已加载
 
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 roslaunch源码解析：roslaunch px4 mavros_posix_sitl.launch一次性启动三大组件：
-
- 1\. Gazebo物理仿真环境 \+ 无人机模型 <br>
- 2\. PX4 POSIX SITL软件在环仿真飞控 <br>
- 3 \. MAVROS节点，建立ROS与PX4飞控之间的MAVLink通信通道 <br>
-  </strong>
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>roslaunch源码解析：</strong> <code>roslaunch px4 mavros_posix_sitl.launch</code> 一次性启动三大组件：
+  <ol style="margin:8px 0 0 24px; padding:0;">
+    <li>Gazebo物理仿真环境 + 无人机模型</li>
+    <li>PX4 POSIX SITL软件在环仿真飞控</li>
+    <li>MAVROS节点，建立ROS与PX4飞控之间的MAVLink通信通道</li>
+  </ol>
 </div>
+
 
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
@@ -112,10 +112,10 @@ roslaunch px4 mavros_posix_sitl.launch
 
 通过这个launch文件，我们可以一键启动完整的仿真环境，无需手动分别启动各个组件，大大简化了仿真环境的启动流程。
 
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 launch文件作用：ROS的launch文件是一种XML格式的配置文件，用于一次性启动多个ROS节点，并可以设置节点参数、重映射话题名等。使用roslaunch命令可以自动启动roscore（如果尚未启动），并按照launch文件的配置启动所有节点。
-  </strong>
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>launch文件作用：</strong>ROS的launch文件是一种XML格式的配置文件，用于一次性启动多个ROS节点，并可以设置节点参数、重映射话题名等。使用roslaunch命令可以自动启动roscore（如果尚未启动），并按照launch文件的配置启动所有节点。
 </div>
+
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
@@ -145,13 +145,10 @@ roslaunch px4 mavros_posix_sitl.launch
 ./sh_file/fly_test.sh
 ```
 
-<div style="background-color: #f1f1d1ff; border-left: 5px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 说明：
-
-`fly_test.sh`这个shell脚本会先启动px4ctrl控制器，再启动fly test轨迹生成节点。px4ctrl负责接收轨迹指令并计算控制输出，fly\_test负责生成测试用的期望轨迹。
-
-</strong>
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>说明：</strong> <code>fly_test.sh</code> 这个shell脚本会先启动px4ctrl控制器，再启动fly test轨迹生成节点。px4ctrl负责接收轨迹指令并计算控制输出，fly_test负责生成测试用的期望轨迹。
 </div>
+
 3. 在页面4分别输入以下命令，执行无人机自动起飞和自动降落任务：
 
 ```Plain Text
@@ -165,14 +162,12 @@ roslaunch px4 mavros_posix_sitl.launch
 rostopic pub -1 /px4ctrl/takeoff_land quadrotor_msgs/TakeoffLand "takeoff_land_cmd: 1"
 ```
 
-<div style="background-color: #f1f1d1ff; border-left: 5px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 参数说明：
-
-• `takeoff_land_cmd: 1`：起飞到指定高度（takeoff.sh设置为1）
-
-• `takeoff_land_cmd: 0`：在当前位置进行降落（land.sh设置为0）
-
-</strong>
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>参数说明：</strong>
+  <ul style="margin:8px 0 0 24px; padding:0;">
+    <li><code>takeoff_land_cmd: 1</code>：起飞到指定高度（takeoff.sh设置为1）</li>
+    <li><code>takeoff_land_cmd: 0</code>：在当前位置进行降落（land.sh设置为0）</li>
+  </ul>
 </div>
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
@@ -241,10 +236,10 @@ catkin_make
 ```Plain Text
 source devel/setup.bash
 ```
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 说明：与实践一相比，8字飞行需要多一个页面来发布8字轨迹触发指令，因此需要新建5个终端页面。编译和环境配置步骤与实践一完全相同。
-</strong>
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>说明：</strong> 与实践一相比，8字飞行需要多一个页面来发布8字轨迹触发指令，因此需要新建5个终端页面。编译和环境配置步骤与实践一完全相同。
 </div>
+
 
 <figure style="flex:1; text-align:center;">
     <img src="../images/week_9/9-13.png" width="950">
@@ -275,9 +270,10 @@ roslaunch px4 mavros_posix_sitl.launch
 
 2. 等待几秒后，查看Gazebo仿真软件是否正常启动
 
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 说明：启动仿真软件的步骤与实践一完全相同。该命令会一次性启动Gazebo物理仿真环境、PX4 SITL软件在环仿真飞控和MAVROS通信节点。</strong>
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>说明：</strong> 启动仿真软件的步骤与实践一完全相同。该命令会一次性启动Gazebo物理仿真环境、PX4 SITL软件在环仿真飞控和MAVROS通信节点。
 </div>
+
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:65%;">
@@ -313,9 +309,10 @@ roslaunch px4 mavros_posix_sitl.launch
 ./sh_file/takeoff.sh
 ```
 
-<div style="background-color: #f1f1d1ff; border-left: 7px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-  <strong>​​​💡 说明：起飞步骤与实践一完全相同。起飞后无人机会上升到预设高度并悬停，等待8字飞行指令的触发。</strong>
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>说明：</strong> 起飞步骤与实践一完全相同。起飞后无人机会上升到预设高度并悬停，等待8字飞行指令的触发。
 </div>
+
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:31.5%;">
@@ -357,17 +354,15 @@ roslaunch px4 mavros_posix_sitl.launch
 ```Plain Text
 ./sh_file/land.sh
 ```
-<div style="background-color: #f1f1d1ff; border-left: 8px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 观察要点：在8字飞行过程中，可以观察无人机的位置、姿态和控制状态变化。注意无人机在8字轨迹转弯处的姿态变化，以及位置跟踪的精度。这有助于理解PX4ctrl位置环控制算法的实际效果。
-
-</strong>
-
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>观察要点：</strong> 在8字飞行过程中，可以观察无人机的位置、姿态和控制状态变化。注意无人机在8字轨迹转弯处的姿态变化，以及位置跟踪的精度。这有助于理解PX4ctrl位置环控制算法的实际效果。
 </div>
-<div style="background-color: #f1f1d1ff; border-left: 8px solid #b9b625ff; padding: 10px 15px; margin: 15px 0; border-radius: 3px;">
-<strong>​​​💡 验证：发布8字飞行指令后，无人机会从悬停状态开始，沿着8字形轨迹飞行，完成一圈后回到起点并悬停。执行降落指令后，无人机会缓慢下降并安全着陆。
 
-</strong>
+
+<div style="background-color:#edfbeb; border:1px solid #88dd88; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  ✅ <strong>验证：</strong> 发布8字飞行指令后，无人机会从悬停状态开始，沿着8字形轨迹飞行，完成一圈后回到起点并悬停。执行降落指令后，无人机会缓慢下降并安全着陆。
 </div>
+
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:32%;">
