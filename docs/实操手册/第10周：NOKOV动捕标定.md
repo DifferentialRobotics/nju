@@ -6,6 +6,13 @@
   📌 本文档详细介绍NOKOV光学动作捕捉系统的标定操作流程，包括标定准备、先T后L标定、基础标定和更新标定，适用于日常动捕系统的校准与维护。
 </div>
 
+## 官方操作视频
+
+<p >
+  <video width="950" controls>
+    <source src="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/10/%E4%B8%89%E3%80%81%E7%B3%BB%E7%BB%9F%E6%A0%87%E5%AE%9A.mp4" type="video/mp4">
+  </video>
+</p>
 
 # 实践一：标定准备工作
 
