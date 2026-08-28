@@ -153,7 +153,7 @@ rosrun plotjuggler plotjuggler
 
 肉眼看两条线靠得近不近不够严谨，我们需要计算它们相减的绝对值误差。
 
-## **3\.1 ****唤出自定义工具**
+## 3.1 唤出自定义工具
 
 在软件界面的左下角，找到 `Custom Series` 窗口，鼠标左键点击旁边的 `+` 图标，准备创建自定义派生序列。
 
@@ -167,7 +167,7 @@ rosrun plotjuggler plotjuggler
   <figcaption></figcaption>
 </figure>
 
-## **3\.2 ****配置计算公式**
+## 3.2 配置计算公式
 
 - **New name \(命名\)**：在上方输入框输入 `diff_x`。
 
@@ -187,7 +187,7 @@ rosrun plotjuggler plotjuggler
 return math.abs(value - v1)
 ```
 
-## **3\.3 实操**
+## 3.3 实操
 
 1. 鼠标左键点击右上角的绿色勾选按钮（或回车）保存。
 
