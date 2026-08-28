@@ -22,7 +22,7 @@
     </ul>
 </li>
 </ul>
-<a href="实操手册/第1周：Liftoff模拟飞行.md">📄 打开实操文档</a>
+<a href="../实操手册/第1周：Liftoff模拟飞行.md">📄 打开实操文档</a>
 </div>
 </details>
   
