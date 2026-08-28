@@ -169,17 +169,13 @@ rosrun plotjuggler plotjuggler
 
 ## 3.2 配置计算公式
 
-- **New name \(命名\)**：在上方输入框输入 `diff_x`。
+- New name (命名)：在上方输入框输入 `diff_x`。
 
-- **Input timeseries \(主变量\)**：点击输入框，选择 `/MVD/odom/pose/pose/position/x`。
+- Input timeseries (主变量)：点击输入框，选择 `/MVD/odom/pose/pose/position/x`。
 
-- **Additional source timeseries \(辅变量\)**：将左侧列表中的期望指令 `/setpoints_cmd/position/x` 直接拖入下方名为 `v1` 的大白框中。
+- Additional source timeseries (辅变量)：将左侧列表中的期望指令 `/setpoints_cmd/position/x` 直接拖入下方名为 `v1` 的大白框中。
 
-
-
-- **Function \(编写脚本\)**：在右下角的代码输入框中，输入以下 Lua 代码求绝对差值：
-
-
+- Function (编写脚本)：在右下角的代码输入框中，输入以下 Lua 代码求绝对差值：
 
 - Lua
 
@@ -209,11 +205,7 @@ return math.abs(value - v1)
 
 配置文件中的 `Kp0, Kp1, Kp2` 分别对应无人机在 X轴、Y轴、Z轴 的位置比例增益。
 
-
-
 - 🔴 **如果你的图出现“超调 \(Overshoot\)”**：实际位置 \(odom\) 严重越过期望指令 \(setpoint\) 形成很高的波峰，说明当前比例增益过激 👉 **进入文件，调小对应的 Kp 值**。
-
-
 
 - 🔵 **如果你的图出现“滞后 \(Lag\)”**：实际位置 \(odom\) 响应迟缓，曲线一直在期望指令的后面追，说明比例增益不足 👉 **进入文件，调大对应的 Kp 值**。
 
@@ -226,11 +218,7 @@ return math.abs(value - v1)
 
 配置文件中的 `Kv0, Kv1, Kv2` 分别对应 X轴、Y轴、Z轴 的速度微分阻尼增益。
 
-
-
 - 🔴 **如果你的速度图出现“高频震荡”**：速度波形像锯齿一样剧烈抖动或频繁超调，说明系统阻尼不匹配 👉 **进入文件，调小对应的 Kv 值**以增加稳定性。
-
-
 
 - 🔵 **如果你的速度图出现“跟随无力”**：速度变化平缓，长时间达不到给定的期望速度波峰 👉 **进入文件，调大对应的 Kv 值**提升飞行器的敏捷度。
 
