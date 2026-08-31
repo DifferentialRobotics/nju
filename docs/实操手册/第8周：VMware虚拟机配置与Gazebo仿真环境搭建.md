@@ -13,6 +13,11 @@
   💡 <strong>实践准备：</strong> VMware虚拟机、Gazebo仿真器。
 </div>
 
+|下载链接|文件名称|用途|备注|
+|---|---|---|---|
+|<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/VMware17.6.rar" target="_blank">📥VMware17.6</a>|VMware17.6|Vmware安装包|密钥：MC60H-DWHD5-H80U9-6V85M-8280D|
+|<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/ubuntu-20.04.2.0-desktop-amd64.iso" target="_blank">📥ubuntu-20.04.2.0-desktop-amd64.iso</a>|ubuntu-20.04.2.0-desktop-amd64.iso|Ubuntu 20.04安装包||
+
 # 实践一：VMware虚拟机配置
 
 ### 1\.1 虚拟机命名与安装位置设置
