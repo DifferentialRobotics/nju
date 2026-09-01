@@ -35,7 +35,22 @@
 
 4. 熟悉 px4ctrl 实机自主起飞、定点悬停及安全操作流程，理解 定位数据正常、控制节点稳定运行是自主飞行的前提条件。
 
+---
+
+1\.3 代码下载
+
+|下载链接|代码说明|
+|---|---|
+|<a href="../file/8fly_ws.zip">📥 8fly_ws</a>|8fly_ws代码包|
+
 # 实践一：环境准备与节点启动
+
+<div style="background-color:#fff2f2; border:1px solid #f8aaaa; padding:24px 28px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  ⚠️ <strong>注意：</strong>
+  <ul style="margin:12px 0 0 0; padding-left:24px;">
+    <li>无人机机头方向需要与动捕场地中X轴方向保持一致，否则无法飞行</li>
+  </ul>
+</div>
 
 ## \(1\) 遥控器状态
 
