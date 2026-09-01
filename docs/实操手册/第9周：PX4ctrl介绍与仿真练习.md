@@ -13,6 +13,10 @@
   💡 <strong>实践准备：</strong>确保已完成第8周的Gazebo仿真环境搭建，PX4-Autopilot和MAVROS已正确安装并能够正常运行。所有实践均在Gazebo仿真环境中进行，无需真机。
 </div>
 
+### 代码下载
+|下载链接|文件名称|
+|---|---|
+|<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/fly.zip" target="_blank">📥fly</a>|fly代码包|
 
 # 实践一：PX4ctrl自动起飞悬停和降落
 
