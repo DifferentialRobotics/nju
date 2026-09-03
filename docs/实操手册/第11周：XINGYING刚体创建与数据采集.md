@@ -7,6 +7,11 @@
   </strong>
 </div>
 
+## 软件下载
+|下载链接|文件名称|
+|---|---|
+|<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/nomachine-personal-edition_10.0.59_1_x64.exe" target="_blank">📥nomachine</a>|nomachine远程连接软件|
+
 ## 官方操作视频
 
 <p >
@@ -21,6 +26,13 @@
 
 XINGYING 软件支持在实时下创建 Markerset，需在场地内放置已贴好反光标记点的无人机，并且能在软件中的 3D 视图下看到每一个反光标记点。
 
+<div style="background-color:#fff2f2; border:1px solid #f8aaaa; padding:24px 28px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  ⚠️ <strong>注意：</strong>
+  <ul style="margin:12px 0 0 0; padding-left:24px;">
+    <li>创建刚体前，摆放无人机时，无人机机头方向需要与动捕场地中X轴方向保持一致</li>
+  </ul>
+</div>
+
 ## 1\.2 操作步骤
 
 ### \(1\) 冻结 3D 视图
@@ -34,7 +46,7 @@ XINGYING 软件支持在实时下创建 Markerset，需在场地内放置已贴�
 
 ### \(2\) 选中反光标记点
 
-选中 3D 视图中的反光标记点有以下两种方法：
+选中 3D 视图中的反光标记点有以下两种方法（二选一即可）：
 
 - **框选**：按住 `Shift` 键的同时，按住鼠标左键拖动框选，选中需要创建刚体的反光标记点
 
@@ -70,7 +82,7 @@ XINGYING 软件支持在实时下创建 Markerset，需在场地内放置已贴�
 
 ### \(4\) 命名刚体
 
-为创建的刚体命名，单击单个刚体，朝向为 x 并解除冻结。
+为创建的刚体命名为“MVD”，单击单个刚体，朝向为 x 并解除冻结。
 
 <figure style="flex:1; text-align:center;">
     <img src="../images/week_11/11-5.jpg" width="950">
@@ -92,6 +104,38 @@ XINGYING 软件支持在实时下创建 Markerset，需在场地内放置已贴�
 </figure>
 
 ---
+## 补充
+在香橙派进行镜像烧录，使用<code>orangepi.img</code>镜像时，由于系统已经预装ros1与ros2，在启动终端时，需要进行ros1与ros2的选择
+
+1.使用 `Ctrl+Alt+T` 开终端时，第一行会提示`ros:foxy(1) noetic(2)`
+<div style="background-color: #fffbdbff; border: 2px solid #f2e270ff; padding: 10px 15px; margin: 15px 0; border-radius: 12px;">
+  <ul style="margin:8px 0;padding-left:20px;">
+    <li>foxy为ros2版本</li>
+    <li>noetic为ros1版本</li>
+  </ul>
+</div>
+
+<figure style="flex:1; text-align:center;">
+    <img src="../images/week_11/11-19.png" width="750">
+    <figcaption>ros版本选择</figcaption>
+</figure>
+
+2.此时输入`2`回车，即代便选择ros1版本使用
+
+<div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-20.png"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;"></div>
+  </div>
+
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-21.png"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;"></div>
+  </div>
+</div>
+
 
 # 实践二：ROS 与 XINGYING 软件的通信
 
@@ -114,6 +158,13 @@ sudo apt search vrpn
 
 ## 2\.2 VRPN 的下载安装及其网络配置
 
+<div style="background-color:#fff2f2; border:1px solid #f8aaaa; padding:24px 28px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  ⚠️ <strong>注意：</strong>
+  <ul style="margin:12px 0 0 0; padding-left:24px;">
+    <li>安装方式二者选其一即可</li>
+  </ul>
+</div>
+
 ### \(1\) 软件源安装（推荐）
 
 ```bash
@@ -122,21 +173,140 @@ sudo apt-get install ros-noetic-vrpn-client-ros
 
 ### \(2\) 源码安装
 
-1\. 在 Home 目录下新建文件夹 "catkin\_ws"，进入路径后编译：
+1\. 在 Home 目录下新建文件夹 "catkin_ws/src，然后进入src文件夹，克隆源码：
+
+```bash
+mkdir -p catkin_ws/src
+cd ~/catkin_ws/src
+git clone https://github.com/ros-drivers/vrpn_client_ros.git
+```
+
+2\. 在 Home 目录下进入文件夹 "catkin_ws"，进入路径后编译：
 
 ```bash
 cd ~/catkin_ws
 catkin_make -DCATKIN_WHITELIST_PACKAGES="vrpn_client_ros"
 ```
 
-2\. 在 "catkin\_ws" 目录下新建文件夹 "src"，克隆源码：
-
-```bash
-cd ~/catkin_ws/src
-git clone https://github.com/ros-drivers/vrpn_client_ros.git
-```
-
 ## 2\.3 测试网络连通
+
+### (1) 香橙派网络连接
+
+1. 将香橙派外接显示器，连接动捕专属wifi，并进行ip查看。
+
+```
+ifconfig
+```
+<div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:44.5%;">
+    <img src="../images/week_11/11-13.png"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">ifconfig指令</div>
+  </div>
+
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:52%;">
+    <img src="../images/week_11/11-13-1.png"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">ip查看</div>
+  </div>
+</div>
+
+<div >
+  <strong>连接wifi之后，也可设置固定ip</strong>
+  <ul style="margin:8px 0;padding-left:20px;">
+    <li>a.点击右上角wifi设置，进入“wifi settings”</li>
+    <li>b.选中刚才所连接的wifi，点击右侧设置</li>
+    <li>c.在弹出的设置中，选择“IPv4”,进行固定ip设置</li>
+    <li>d.设置完成之后重启香橙派，通过<code>ifconfig</code>查看当前ip是否修改完成。</li>
+    <strong>注意：所修改ip需要与动捕wifi保持同一网段</strong>
+  </ul>
+</div>
+
+<div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-14.png"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">步骤a</div>
+  </div>
+
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-15.png"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">步骤b</div>
+  </div>
+</div>
+
+<div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-16.png"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">步骤c</div>
+  </div>
+
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-17.png"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">步骤d</div>
+  </div>
+</div>
+
+### (2)笔记本网络连接
+笔记本连接连接动捕专属wifi，使香橙派与笔记本处于同一局域网下
+
+<figure style="flex:1; text-align:center;">
+    <img src="../images/week_11/11-18.jpg" width="500">
+    <figcaption></figcaption>
+</figure>
+
+### (3)nomachine远程连接
+
+<div >
+  <strong>连接wifi之后，也可设置固定ip</strong>
+  <ul style="margin:8px 0;padding-left:20px;">
+    <li>1.nomachine安装完成之后， 点击左上角“add-->Add connection”</li>
+    <li>2.在<code>Host</code>地址栏写入香橙派ip地址，点击右上角“Add”</li>
+    <li>3.在主界面选中刚才所创建的连接，点击上方<code>Connect</code></li>
+    <li>4.在弹出的界面输入香橙派的用户名与密码，点击“OK”，即可通过nomachine远程连接香橙派</li>
+  </ul>
+</div>
+
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
+  💡 <strong>香橙派用户名密码：</strong>
+  <div style="margin‑top:12px;">
+    <div> 用户名：orangepi</div>
+    <div> 密码：l（小写L）</div>
+  </div>
+</div>
+
+<div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-22.jpg"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">步骤1</div>
+  </div>
+
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-23.jpg"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">步骤2</div>
+  </div>
+</div>
+
+<div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-24.jpg"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">步骤3</div>
+  </div>
+
+  <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:48%;">
+    <img src="../images/week_11/11-25.jpg"
+         style="max-height:320px; object-fit:contain; width:100%; height:auto;">
+    <div style="margin-top:12px; font-size:1.1em;">步骤4</div>
+  </div>
+</div>
+
+### (4)网络连接测试 
 
 使用 ping 命令测试 Ubuntu 是否跟 XINGYING 软件所在主机的网络连通：
 
@@ -159,9 +329,11 @@ ping 10.1.1.198
 
 ## 2\.4 启动 vrpn\_client\_ros
 
-输入以下命令启动 VRPN 客户端：
+先进入8fly_ws工作空间，刷新环境变量，启动 VRPN 客户端：
 
 ```bash
+cd 8fly_ws
+source ./devel/setup/bash
 roslaunch vrpn_client_ros sample.launch server:=10.1.1.198
 ```
 <div style="background-color:#F0FBEB; border:2px solid #86DD86; padding:10px 15px; margin:15px 0; border-radius:12px;">
