@@ -18,7 +18,7 @@
 |<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/VMware17.6.rar" target="_blank">📥VMware17.6</a>|VMware17.6|Vmware安装包|密钥：MC60H-DWHD5-H80U9-6V85M-8280D|
 |<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/ubuntu-20.04.2.0-desktop-amd64.iso" target="_blank">📥ubuntu-20.04.2.0-desktop-amd64.iso</a>|ubuntu-20.04.2.0-desktop-amd64.iso|Ubuntu 20.04安装包||
 |<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/PX4_Firmware.zip" target="_blank">📥PX4_Firmware</a>|PX4_Firmware|px4源码包||
-|<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/fly.zip" target="_blank">📥fly</a>|fly|fly代码包||
+
 # 实践一：VMware虚拟机配置
 
 ### 1\.1 虚拟机命名与安装位置设置
@@ -136,28 +136,60 @@ PX4是一款领先的开源自动驾驶飞控软件栈，被广泛誉为无人�
 cd ~
 ```
 
-2. 下载PX4开源飞控源代码：
+2.  安装编译是所需要的依赖：
 
-```Plain Text
-git clone --recursive --branch v1.16.2 https://github.com/PX4/PX4-Autopilot.git
+```
+sudo apt update
+sudo apt install git make cmake gcc g++ python3 python3-pip
+sudo apt install gazebo libgazebo11-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+pip3 install --user -r Tools/setup/requirements.txt
 ```
 
-3. 克隆完毕后，在当前目录会自动生成名为PX4\-Autopilot的源码文件夹
+3.将下载的`PX4_Firmware.zip`进行解压，解压到根目录下，并将文件夹名称修改为：PX4_Firmware
 
-<div style="background-color:#edf2ff; border:1px solid #82aaff; padding:20px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
-  💡 <strong>参数说明：</strong>
-  <div style="margin‑top:12px;">
-    <div style="margin‑bottom:10px;">1. <code style="background:#f3f4f6;padding:2px 8px;border‑radius:4px;">--recursive</code>：递归克隆所有子模块，PX4依赖大量第三方库，必须使用此参数</div>
-    <div style="margin‑bottom:10px;">2. <code style="background:#f3f4f6;padding:2px 8px;border‑radius:4px;">--branch v1.16.2</code>：指定克隆v1.16.2稳定版本，确保与课程内容一致</div>
-    <div>3. 克隆过程可能需要较长时间，请耐心等待，确保网络连接稳定</div>
-  </div>
+4.对解压完毕后，进入当前目录，进行编译：
+
+```Plain Text
+cd PX4_Firmware
+make px4_sitl_default gazebo
+```
+
+<div style="background-color:#edf2ff; border:1px solid #82aaff; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  💡 <strong>说明：</strong>首次启动时需要编译PX4固件，可能需要较长时间（10‑20分钟），请耐心等待。后续启动会直接使用已编译的文件，速度会快很多。
 </div>
 
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>当弹出Gazebo界面时，则表示编译成功</strong>
+</div>
 
-<figure style="flex:1; text-align:center;">
-    <img src="../images/week_8/8-9.jpg" width="950">
-    <figcaption>PX4源码克隆过程</figcaption>
-</figure>
+5. 编译完成之后，先进入到根目录，在`.bashrc`最后写入环境变化量
+
+```
+cd
+sudo nano .bashrc
+```
+
+需要写入内容，直接复制粘贴进去即可：
+
+```
+# PX4 SITL Gazebo 环境配置
+# catkin，编译完成才加载
+if [ -f "$HOME/catkin_ws/devel/setup.bash" ];then
+  source "$HOME/catkin_ws/devel/setup.bash"
+fi
+
+# 手动设置gazebo环境变量，不调用setup_gazebo.bash脚本，避免重复追加
+export GAZEBO_PLUGIN_PATH=/home/gao/PX4_Firmware/build/px4_sitl_default/build_gazebo
+export GAZEBO_MODEL_PATH=/home/gao/PX4_Firmware/Tools/sitl_gazebo/models
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/gao/PX4_Firmware/build/px4_sitl_default/build_gazebo
+
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:/home/gao/PX4_Firmware
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:/home/gao/PX4_Firmware/Tools/sitl_gazebo
+```
+
+<div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
+  💡 <strong>环境变量写入之后，<code>ctrl + x</code>进行保存退出</strong>
+</div>
 
 ### 2\.2 启动PX4 SITL仿真与MAVROS
 
@@ -174,10 +206,6 @@ roslaunch px4 mavros_posix_sitl.launch
 该命令会通过ROS启动PX4无人机软件在环仿真，同时启动mavros实现ROS与PX4飞控通信。
 
 2. 等待Gazebo仿真页面启动，确认仿真环境正常加载
-
-<div style="background-color:#edf2ff; border:1px solid #82aaff; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
-  💡 <strong>说明：</strong>首次启动时需要编译PX4固件，可能需要较长时间（10‑20分钟），请耐心等待。后续启动会直接使用已编译的文件，速度会快很多。
-</div>
 
 <div style="background-color:#edf9ed; border:1px solid #72d272; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
   ✅ <strong>验证：</strong>启动成功后，Gazebo窗口会显示无人机模型，终端会输出PX4启动日志和MAVROS连接信息。
@@ -215,10 +243,10 @@ rostopic list
 <div style="background-color:#edf9ed; border:1px solid #72d272; padding:20px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
   ✅ <strong>验证：</strong>正常情况下，话题列表中应包含以下关键话题：
   <ol style="padding-left:28px;margin:10px 0;">
-    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">/mavros/state</code>：飞控状态信息</li>
-    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">/mavros/imu/data</code>：IMU传感器数据</li>
-    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">/mavros/local_position/pose</code>：本地位置信息</li>
-    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">/mavros/cmd/arming</code>：解锁/上锁服务</li>
+    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">rostopic echo /mavros/state</code>：飞控状态信息</li>
+    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">rotopic echo /mavros/imu/data</code>：IMU传感器数据</li>
+    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">rostopic echo /mavros/local_position/pose</code>：本地位置信息</li>
+    <li><code style="background:#f4f4f6;padding:2px 6px;border-radius:4px;">rostopic echo /mavros/cmd/arming</code>：解锁/上锁服务</li>
   </ol>
   如果这些话题都存在，说明MAVROS与PX4通信正常。
 </div>
@@ -236,6 +264,31 @@ rostopic list
          style="max-height:320px; object-fit:contain; width:100%; height:auto;">
     <div style="margin-top:12px; font-size:1.1em;">话题列表输出结果</div>
   </div>
+</div>
+
+<div style="background-color:#edf9ed; border:1px solid #72d272; padding:20px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
+  ✅ <strong>验证：</strong>此时可以使用<code>rostopic echo /mavros/state</code>命令进行进一步验证
+  <li>当该话题有输出信息之后，注意观察话题中<code>connected</code>的消息提示：</li>
+  <li>如果显示False，则表示飞控未连接</li>
+  <li>如果显示True，则表示飞控正常连接</li>
+</div>
+
+<div>
+  <strong>如果<code>connected</code>显示false，排错方式：
+    <ol>
+      <li>打开一个新终端，进入PX4_Firmware:<code>cd PX4_Firmware</code></li>
+      <li>再打开一个新终端，输入命令：<code>make px4_sitl_default gazebo</code>，并执行</li>
+      <li>当命令启动成功，在末尾输出的日志中，主要观察以<code>INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s</code>开头的消息提示</li>
+      <li>打开<code>PX4_Firmware/launch</code>文件,修改launch文件中<code>fcu_url</code>，对接 Onboard 端口 </li>
+    </ol>
+  </strong>
+</div>
+
+<div style="background-color:#edf9ed; border:1px solid #72d272; padding:20px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
+  ✅ <strong>实例</strong>
+  <li>终端输出消息为：<code>INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s on udp port 34580 remote port 24540</code></li>
+  <li>则将launch文件中<code>fcu_url</code>内容替换为：<code>arg name="fcu_url" default="udp://:24540@localhost:34580"/</code></li>
+  <li>说明：mavros本地端口24540，连接PX4 SITL onboard端口34580</li>
 </div>
 
 ### 2\.4 Gazebo测试：解锁、上锁测试
@@ -321,6 +374,11 @@ source devel/setup.bash
     <img src="../images/week_8/8-15.png" width="850">
     <figcaption>步骤一：打开五个终端</figcaption>
 </figure>
+
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:18px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
+  💡 <strong>说明：</strong>
+  除第一个终端外，剩余四个终端都需要先执行<code>cd fly</code>,然后再执行<code>source devel/setup.bash</code>，最后再执行相应的命令。
+</div>
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:36%;">
