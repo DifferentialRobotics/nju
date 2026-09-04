@@ -433,18 +433,24 @@ roslaunch px4 mavros_posix_sitl.launch
 1. 在页面2输入以下命令，启动Gazebo真实位姿获取功能，使仿真环境能够实时获取无人机真实位置与姿态信息：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/run_groundtruth.sh
 ```
 
 2. 在页面3输入以下命令，启动无人机飞行测试节点，完成仿真飞行控制程序加载：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/fly_test.sh
 ```
 
 3. 在页面4输入以下命令，执行无人机飞行自动起飞任务：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/takeoff.sh
 ```
 <div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
@@ -523,6 +529,8 @@ trajectory_id: 1"
 3. 等待飞行完毕后，在页面4输入以下命令，执行无人机飞行自动降落任务：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/land.sh
 ```
 <div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
