@@ -18,6 +18,7 @@
 |<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/VMware17.6.rar" target="_blank">📥VMware17.6</a>|VMware17.6|Vmware安装包|密钥：MC60H-DWHD5-H80U9-6V85M-8280D|
 |<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/ubuntu-20.04.2.0-desktop-amd64.iso" target="_blank">📥ubuntu-20.04.2.0-desktop-amd64.iso</a>|ubuntu-20.04.2.0-desktop-amd64.iso|Ubuntu 20.04安装包||
 |<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/PX4_Firmware.zip" target="_blank">📥PX4_Firmware</a>|PX4_Firmware|px4源码包||
+|<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/fly.zip" target="_blank">📥fly</a>|fly|fly代码包||
 
 # 实践一：VMware虚拟机配置
 
