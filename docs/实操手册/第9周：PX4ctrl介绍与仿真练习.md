@@ -32,7 +32,7 @@
 cd fly
 ```
 
-3. 输入以下命令编译工作空间内所有功能包：
+3. 输入以下命令编译工作空间内所有功能包(第八周已经编译过的话，则可以跳过此步骤)：
 
 ```Plain Text
 catkin_make
@@ -46,7 +46,6 @@ source devel/setup.bash
 <div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
   💡 <strong>说明：</strong>fly功能包包含了PX4ctrl控制器和飞行测试程序。catkin_make是ROS的编译命令，会自动编译工作空间下的所有功能包。每次重新编译后都需要source setup.bash来更新环境变量。
 </div>
-
 
 <figure style="flex:1; text-align:center;">
     <img src="../images/week_9/9-1.png" width="950">
@@ -69,7 +68,7 @@ source devel/setup.bash
 
 ## 1\.2 启动仿真软件
 
-1. 在页面1输入以下命令，启动PX4、MAVROS和Gazebo无人机仿真软件：
+1. 在**页面1**输入以下命令，启动PX4、MAVROS和Gazebo无人机仿真软件：
 
 ```Plain Text
 roslaunch px4 mavros_posix_sitl.launch
@@ -85,8 +84,6 @@ roslaunch px4 mavros_posix_sitl.launch
     <li>MAVROS节点，建立ROS与PX4飞控之间的MAVLink通信通道</li>
   </ol>
 </div>
-
-
 
 <div style="display:flex; gap:5px; justify-content:center; margin:16px 0; align-items:flex-start; flex-wrap:wrap;">
   <div style="flex-shrink:0; flex-basis:100%; text-align:center; max-width:65%;">
@@ -137,15 +134,19 @@ roslaunch px4 mavros_posix_sitl.launch
 
 ## 1\.4 执行程序
 
-1. 在页面2输入以下命令，启动Gazebo真实位姿获取功能：
+1. 在**页面2**输入以下命令，启动Gazebo真实位姿获取功能：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/run_groundtruth.sh
 ```
 
-2. 在页面3输入以下命令，启动无人机飞行测试节点，完成仿真飞行控制程序加载：
+2. 在**页面3**输入以下命令，启动无人机飞行测试节点，完成仿真飞行控制程序加载：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/fly_test.sh
 ```
 
@@ -153,10 +154,17 @@ roslaunch px4 mavros_posix_sitl.launch
   💡 <strong>说明：</strong> <code>fly_test.sh</code> 这个shell脚本会先启动px4ctrl控制器，再启动fly test轨迹生成节点。px4ctrl负责接收轨迹指令并计算控制输出，fly_test负责生成测试用的期望轨迹。
 </div>
 
-3. 在页面4分别输入以下命令，执行无人机自动起飞和自动降落任务：
+3. 在**页面4**分别输入以下命令，执行无人机自动起飞和自动降落任务：
 
-```Plain Text
+```自主起飞
+cd fly
+source devel/setup.bash
 ./sh_file/takeoff.sh
+```
+
+```自主降落
+cd fly
+source devel/setup.bash
 ./sh_file/land.sh
 ```
 
@@ -207,7 +215,7 @@ rostopic pub -1 /px4ctrl/takeoff_land quadrotor_msgs/TakeoffLand "takeoff_land_c
     <figcaption>自主起飞界面</figcaption>
 </figure>
 
-## 1.5 实操视频演示
+## 1\.5 **实操视频演示**
 
 <p >
   <video width="950" controls>
@@ -223,13 +231,13 @@ rostopic pub -1 /px4ctrl/takeoff_land quadrotor_msgs/TakeoffLand "takeoff_land_c
 
 1. 打开terminator终端，新建5个页面，用于分别运行不同的程序
 
-2. 在页面2输入以下命令进入fly功能包目录：
+2. 在**页面2**输入以下命令进入fly功能包目录：
 
 ```Plain Text
 cd fly
 ```
 
-3. 输入以下命令编译工作空间内所有功能包：
+3. 输入以下命令编译工作空间内所有功能包(第八周已经编译过的话，则可以跳过此步骤)：
 
 ```Plain Text
 catkin_make
@@ -266,7 +274,7 @@ source devel/setup.bash
 
 ## 2\.2 启动仿真软件
 
-1. 在页面1输入以下命令，启动PX4、ROS和Gazebo无人机仿真软件：
+1. 在**页面1**输入以下命令，启动PX4、ROS和Gazebo无人机仿真软件：
 
 ```Plain Text
 roslaunch px4 mavros_posix_sitl.launch
@@ -295,21 +303,27 @@ roslaunch px4 mavros_posix_sitl.launch
 
 ## 2\.3 执行程序 - 起飞
 
-1. 在页面2输入以下命令，启动Gazebo真实位姿获取功能，使仿真环境能够实时获取无人机真实位置与姿态信息：
+1. 在**页面2**输入以下命令，启动Gazebo真实位姿获取功能，使仿真环境能够实时获取无人机真实位置与姿态信息：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/run_groundtruth.sh
 ```
 
-2. 在页面3输入以下命令，启动无人机飞行测试节点，完成仿真飞行控制程序加载：
+2. 在**页面3**输入以下命令，启动无人机飞行测试节点，完成仿真飞行控制程序加载：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/fly_test.sh
 ```
 
-3. 在页面4输入以下命令，执行无人机飞行自动起飞任务：
+3. 在**页面4**输入以下命令，执行无人机飞行自动起飞任务：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/takeoff.sh
 ```
 
@@ -343,11 +357,13 @@ roslaunch px4 mavros_posix_sitl.launch
     <figcaption>自主起飞界面</figcaption>
 </figure>
 
-## 2.4 执行程序 - 8字飞行与降落
+## 2\.4 执行程序 \- 8字飞行与降落
 
-1. 在页面5输入以下命令，执行无人机8字飞行任务：
+1. 在**页面5**输入以下命令，执行无人机8字飞行任务：
 
 ```Plain Text
+cd fly
+source devel/setup.bash
 ./sh_file/pub_trigger.sh
 ```
 
@@ -387,7 +403,7 @@ roslaunch px4 mavros_posix_sitl.launch
     <figcaption>8字飞行轨迹</figcaption>
 </figure>
 
-## 2\.5 实操视频演示
+## 2\.5 **实操视频演示**
 
 <p >
   <video width="950" controls>
