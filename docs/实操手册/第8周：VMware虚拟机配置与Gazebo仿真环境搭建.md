@@ -280,7 +280,7 @@ rostopic list
       <li>打开一个新终端，进入PX4_Firmware:<code>cd PX4_Firmware</code></li>
       <li>再打开一个新终端，输入命令：<code>make px4_sitl_default gazebo</code>，并执行</li>
       <li>当命令启动成功，在末尾输出的日志中，主要观察以<code>INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s</code>开头的消息提示</li>
-      <li>打开<code>PX4_Firmware/launch</code>文件,修改launch文件中<code>fcu_url</code>，对接 Onboard 端口 </li>
+      <li>打开<code>PX4_Firmware/launch</code>文件,修改<code>mavros_posix_sitl.launch</code>文件中<code>fcu_url</code>，对接 Onboard 端口 </li>
     </ol>
   </strong>
 </div>
@@ -288,7 +288,7 @@ rostopic list
 <div style="background-color:#edf9ed; border:1px solid #72d272; padding:20px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
   ✅ <strong>实例</strong>
   <li>终端输出消息为：<code>INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s on udp port 34580 remote port 24540</code></li>
-  <li>则将mavros_posix_sitl.launch文件中<code>fcu_url</code>内容替换为：<code>arg name="fcu_url" default="udp://:24540@localhost:34580"/</code></li>
+  <li>则将<code>mavros_posix_sitl.launch</code>文件中<code>fcu_url</code>内容替换为：<code>arg name="fcu_url" default="udp://:24540@localhost:34580"/</code></li>
   <li>说明：mavros本地端口24540，连接PX4 SITL onboard端口34580</li>
 </div>
 
