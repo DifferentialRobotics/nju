@@ -287,7 +287,7 @@ rostopic list
 <div style="background-color:#edf9ed; border:1px solid #72d272; padding:20px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
   ✅ <strong>实例</strong>
   <li>终端输出消息为：<code>INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s on udp port 34580 remote port 24540</code></li>
-  <li>则将launch文件中<code>fcu_url</code>内容替换为：<code>arg name="fcu_url" default="udp://:24540@localhost:34580"/</code></li>
+  <li>则将mavros_posix_sitl.launch文件中<code>fcu_url</code>内容替换为：<code>arg name="fcu_url" default="udp://:24540@localhost:34580"/</code></li>
   <li>说明：mavros本地端口24540，连接PX4 SITL onboard端口34580</li>
 </div>
 
