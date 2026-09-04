@@ -19,7 +19,7 @@
 |<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/ubuntu-20.04.2.0-desktop-amd64.iso" target="_blank">📥ubuntu-20.04.2.0-desktop-amd64.iso</a>|ubuntu-20.04.2.0-desktop-amd64.iso|Ubuntu 20.04安装包||
 |<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/PX4_Firmware.zip" target="_blank">📥PX4_Firmware</a>|PX4_Firmware|px4源码包||
 |<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/fly.zip" target="_blank">📥fly</a>|fly|fly代码包||
-
+|<a href="https://diffrobots.oss-cn-hangzhou.aliyuncs.com/nju-wiki/file/QGroundControl.AppImage" target="_blank">📥QGroundControl.AppImage</a>|QGroundControl.AppImage|qgc 安装包||
 # 实践一：VMware虚拟机配置
 
 ### 1\.1 虚拟机命名与安装位置设置
@@ -280,7 +280,7 @@ rostopic list
       <li>打开一个新终端，进入PX4_Firmware:<code>cd PX4_Firmware</code></li>
       <li>再打开一个新终端，输入命令：<code>make px4_sitl_default gazebo</code>，并执行</li>
       <li>当命令启动成功，在末尾输出的日志中，主要观察以<code>INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s</code>开头的消息提示</li>
-      <li>打开<code>PX4_Firmware/launch</code>文件,修改<code>mavros_posix_sitl.launch</code>文件中<code>fcu_url</code>，对接 Onboard 端口 </li>
+      <li>打开<code>PX4_Firmware/launch</code>文件,修改launch文件中<code>fcu_url</code>，对接 Onboard 端口 </li>
     </ol>
   </strong>
 </div>
@@ -288,7 +288,7 @@ rostopic list
 <div style="background-color:#edf9ed; border:1px solid #72d272; padding:20px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
   ✅ <strong>实例</strong>
   <li>终端输出消息为：<code>INFO  [mavlink] mode: Onboard, data rate: 4000000 B/s on udp port 34580 remote port 24540</code></li>
-  <li>则将<code>mavros_posix_sitl.launch</code>文件中<code>fcu_url</code>内容替换为：<code>arg name="fcu_url" default="udp://:24540@localhost:34580"/</code></li>
+  <li>则将launch文件中<code>fcu_url</code>内容替换为：<code>arg name="fcu_url" default="udp://:24540@localhost:34580"/</code></li>
   <li>说明：mavros本地端口24540，连接PX4 SITL onboard端口34580</li>
 </div>
 
@@ -347,6 +347,10 @@ rosservice call /mavros/cmd/arming "value: false"
 在完成基础的解锁上锁测试后，我们将进行更复杂的期望点位置控制测试。这需要使用terminator多终端工具，同时运行多个节点来完成无人机的自主起飞、指点飞行和自动降落。
 
 #### (1) 编译fly功能包
+
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:18px 24px; margin:16px 0; border-radius:14px; color:#222; line-height:2.3;">
+  💡 <strong>说明：</strong>在编译fly功能包之前，需要先将下载的fly压缩包进行解压，并将fiy功能包内<code>build</code>、<code>devel</code>文件夹删除。
+</div>
 
 1. 打开terminator终端，新建5个页面（用于同时运行不同的节点和命令）
 
@@ -561,7 +565,88 @@ trajectory_id: 1"
 
 除了通过命令行控制无人机外，我们还可以使用QGroundControl（QGC）地面站进行可视化的飞行控制。QGC提供了直观的界面和虚拟摇杆，可以方便地进行起飞、降落和手动飞行操作。
 
-#### (1) 启动仿真
+#### (1) Vmware中安装qgc
+
+##### 1. 安装依赖并配置串口权限
+
+打开终端，依次执行：
+
+```bash
+sudo apt update
+sudo usermod -aG dialout "$USER"
+
+sudo apt install -y \
+  gstreamer1.0-plugins-bad \
+  gstreamer1.0-libav \
+  gstreamer1.0-gl \
+  libqt5gui5 \
+  libfuse2
+```
+
+其中：
+
+- `dialout` 用户组用于访问 Pixhawk 等飞控的 USB 串口。
+- GStreamer 软件包用于视频流播放。
+- `libfuse2` 用于运行 AppImage 程序。
+
+##### 2. 禁用 ModemManager
+
+ModemManager 可能抢占飞控使用的 USB 串口，建议将其禁用：
+
+```bash
+sudo systemctl mask --now ModemManager.service
+```
+
+如果终端提示找不到该服务，可以忽略。
+
+如需恢复 ModemManager，可执行：
+
+```bash
+sudo systemctl unmask ModemManager.service
+sudo systemctl enable --now ModemManager.service
+```
+
+##### 3. 重新启动电脑
+
+执行以下命令重启系统，使新的串口用户组权限生效：
+
+```bash
+sudo reboot
+```
+
+> 不重启或不重新登录账户，QGroundControl 可能因串口权限不足而无法连接飞控。
+
+##### 4. 下载 QGroundControl
+方式1：直接在课程顶部资源下载直接下载安装包
+
+
+方式2：进入 [QGroundControl 官方历史版本页面](https://github.com/mavlink/qgroundcontrol/releases)，找到适用于 Ubuntu 20.04 的版本，例如 **v4.2.8**。
+
+展开该版本下方的 **Assets**，下载：
+
+```text
+QGroundControl.AppImage
+```
+
+不要下载以下文件：
+
+- `.apk`：Android 版本
+- `.dmg`：macOS 版本
+- `.exe`：Windows 版本
+- `Source code`：源代码压缩包
+
+##### 5. 添加执行权限并启动 QGroundControl
+
+进入到文件下载目录，执行：
+
+```bash
+chmod +x QGroundControl.AppImage
+./QGroundControl.AppImage
+```
+此时弹出qgc主界面，即表示安装启动成功。
+
+
+#### (2) 启动仿真
 
 1. 输入以下命令，启动PX4、ROS、Gazebo无人机仿真软件：
 
@@ -585,11 +670,11 @@ roslaunch px4 mavros_posix_sitl.launch
   </div>
 </div>
 
-#### (2) 启动QGC
+#### (3) 启动QGC
 
-1. 新建终端，输入以下命令启动QGroundControl地面站程序：
+1. 新建终端，进入qgc存放路径，输入以下命令启动QGroundControl地面站程序：
 
-```Plain Text
+```
 ./QGroundControl.AppImage
 ```
 
@@ -609,7 +694,7 @@ roslaunch px4 mavros_posix_sitl.launch
     <figcaption>QGC启动界面</figcaption>
 </figure>
 
-#### (3\) 起飞与虚拟摇杆操作
+#### (4\) 起飞与虚拟摇杆操作
 
 1. 点击界面起飞按键，滑动确认滑块完成解锁，无人机执行起飞动作
 
