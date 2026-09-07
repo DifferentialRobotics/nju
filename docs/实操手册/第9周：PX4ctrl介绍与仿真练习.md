@@ -215,7 +215,7 @@ rostopic pub -1 /px4ctrl/takeoff_land quadrotor_msgs/TakeoffLand "takeoff_land_c
     <figcaption>自主起飞界面</figcaption>
 </figure>
 
-## 1\.5 **实操视频演示**
+## 1\.5 实操视频演示
 
 <p >
   <video width="950" controls>
@@ -403,7 +403,7 @@ source devel/setup.bash
     <figcaption>8字飞行轨迹</figcaption>
 </figure>
 
-## 2\.5 **实操视频演示**
+## 2\.5 实操视频演示
 
 <p >
   <video width="950" controls>
