@@ -54,8 +54,7 @@
 </div>
 
 <div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
-  💡 <strong>提示：</strong>
-  ubuntu下ros、Mavros、terminator等安装可参考第七周实践二操作步骤！
+  💡 <strong>提示：</strong>虚拟机下ros、Mavros、terminator等安装可参考第七周实践二操作步骤！
 </div>
 
 ### 1\.2 设置虚拟机参数
