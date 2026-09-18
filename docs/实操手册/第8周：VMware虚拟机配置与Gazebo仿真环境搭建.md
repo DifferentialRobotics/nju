@@ -54,7 +54,8 @@
 </div>
 
 <div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
-  💡 <strong>提示：</strong>虚拟机下ros、Mavros、terminator等安装可参考第七周实践二操作步骤！
+  💡 <strong>提示：</strong>
+  虚拟机下ros、Mavros、terminator等安装可参考第七周实践二操作步骤！
 </div>
 
 ### 1\.2 设置虚拟机参数
@@ -193,7 +194,11 @@ export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:/home/gao/PX4_Firmware/Tools/sitl_gaze
 ```
 
 <div style="background-color:#f0f4ff; border:1px solid #c5d0f0; padding:14px 20px; margin:16px 0; border-radius:12px; color:#333; line-height:1.8;">
-  💡 <strong>环境变量写入之后，<code>ctrl + x</code>进行保存退出</strong>
+  💡 <strong>注意</strong>
+  <ul>
+    <li> 在写入环境变量时：将其中<code>/gao</code>更换为自己的虚拟机用户名</li>
+    <li> 环境变量写入之后，<code>ctrl + x</code>进行保存退出</li>
+  </ul>
 </div>
 
 ### 2\.2 启动PX4 SITL仿真与MAVROS
