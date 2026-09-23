@@ -130,6 +130,10 @@
 
 # 实践二：Gazebo \+ PX4仿真环境搭建
 
+<div style="background-color:#ffffe6; border:2px solid #ffed66; padding:16px 22px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  💡 <strong>注意：</strong>受个人环境差异影响，编译过程中出现的报错因人而异。若按照文档步骤排查后仍无法解决问题，可以借助 GPT 辅助定位与修复。
+</div>
+
 PX4是一款领先的开源自动驾驶飞控软件栈，被广泛誉为无人机与智能载具的"核心大脑"。在本实践中，我们将完成PX4源码的下载与安装，为后续的仿真飞行做准备。
 
 ### 2\.1 PX4安装和使用
