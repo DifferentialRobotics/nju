@@ -190,6 +190,13 @@ catkin_make -DCATKIN_WHITELIST_PACKAGES="vrpn_client_ros"
 
 ## 2\.3 测试网络连通
 
+<div style="background-color:#fff2f2; border:1px solid #f8aaaa; padding:24px 28px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  ⚠️ <strong>注意：</strong>
+  <ul style="margin:12px 0 0 0; padding-left:24px;">
+    <li>本环境仅作演示使用，动捕网络、IP 地址须依据现场实际情况设置，不可照搬教学示例中的配置。</li>
+  </ul>
+</div>
+
 ### (1) 香橙派网络连接
 
 1. 将香橙派外接显示器，连接动捕专属wifi，并进行ip查看。
@@ -314,6 +321,13 @@ ifconfig
 </div>
 
 ### (4)网络连接测试 
+
+<div style="background-color:#edf2ff; border:1px solid #88aaff; padding:20px 26px; margin:16px 0; border-radius:14px; color:#222; line-height:2.4;">
+  💡 <strong>注意：</strong>
+  <div style="margin‑top:12px;">
+    <div>此处10.1.1.198为动捕网络地址，根据实际地址进行测试。</div>
+  </div>
+</div>
 
 使用 ping 命令测试 Ubuntu 是否跟 XINGYING 软件所在主机的网络连通：
 
