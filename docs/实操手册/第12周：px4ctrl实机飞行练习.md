@@ -238,6 +238,13 @@ clear
   </ul>
 </div>
 
+<div style="background-color:#fff2f2; border:1px solid #f8aaaa; padding:24px 28px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  ⚠️ <strong>注意：</strong>
+  <ul style="margin:12px 0 0 0; padding-left:24px;">
+    <li>实机飞行练习过程中，每次飞行结束后，重新构建一次刚体。</li>
+  </ul>
+</div>
+
 ## \(1\) 执行自主起飞 \(Takeoff\)
 
 在刚才清屏的终端中，运行起飞脚本：
