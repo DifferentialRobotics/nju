@@ -156,7 +156,7 @@ sudo apt search vrpn
 ```
 
 
-## 2\.2 VRPN 的下载安装及其网络配置
+## 2\.2 虚拟机下VRPN 的下载安装及其网络配置
 
 <div style="background-color:#fff2f2; border:1px solid #f8aaaa; padding:24px 28px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
   ⚠️ <strong>注意：</strong>
@@ -248,6 +248,13 @@ ifconfig
          style="max-height:320px; object-fit:contain; width:100%; height:auto;">
     <div style="margin-top:12px; font-size:1.1em;">步骤d</div>
   </div>
+</div>
+
+<div style="background-color:#fff2f2; border:1px solid #f8aaaa; padding:24px 28px; margin:16px 0; border-radius:14px; color:#222; line-height:2.2;">
+  ⚠️ <strong>注意：</strong>
+  <ul style="margin:12px 0 0 0; padding-left:24px;">
+    <li>香橙派的断开外接显示器之后，需要断电重启，否则会责成死机。</li>
+  </ul>
 </div>
 
 ### (2)笔记本网络连接
