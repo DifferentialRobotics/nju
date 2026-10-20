@@ -91,6 +91,24 @@ cd 8fly_ws/
   </div>
 </div>
 
+3.修改动捕网络ip地址
+
+在`8fly_ws`路径下，进行`sample.launch`文件编辑，将`sample.launch`文件中`server`所指向的ip地址修改为动捕网络地址。
+
+```bash
+sudo nano src/novok_mocap/vrpn_client_ros/launch/sample.launch
+```
+
+<figure style="flex:1; text-align:center;">
+  <img src="../images/week_12/12-12.jpg" width="950">
+  <figcaption></figcaption>
+</figure>
+
+<figure style="flex:1; text-align:center;">
+  <img src="../images/week_12/12-13.jpg" width="950">
+  <figcaption></figcaption>
+</figure>
+
 ## \(3\) 启动核心脚本
 
 在工作空间根目录下，执行综合启动脚本：
