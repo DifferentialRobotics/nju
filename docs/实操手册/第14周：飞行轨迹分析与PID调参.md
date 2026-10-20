@@ -98,6 +98,8 @@ rosrun plotjuggler plotjuggler
 
 4. **观察对比**：右上角的图例会显示不同颜色的线条代表哪个变量。观察实际曲线是否紧紧“包裹”着期望曲线。
 
+4. **重复托取**：对`y轴`、`z轴`执行与前述相同的操作。
+
 <figure style="flex:1; text-align:center;">
   <img src="../images/week_14/14-6.png" width="950">
   <figcaption></figcaption>
@@ -110,29 +112,25 @@ rosrun plotjuggler plotjuggler
 1. **新建工作区**：鼠标左键点击右侧绘图区顶部标签栏（如 `tab1`）旁边的 `+` 号，新建一个空白选项卡。
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-6.png" width="950">
+  <img src="../images/week_14/14-7.png" width="950">
   <figcaption></figcaption>
 </figure>
 
-2. **切换为 XY 视图**：在新建的空白绘图区内，**点击鼠标右键**，在弹出的菜单中选择开启 `XY Plot` 模式。这会把坐标系变成直角坐标系。
+2. 在数据列表中按住 `Ctrl` 选择实际位置的 `MVD/odom/pose/pose/position/x` 和 `/MVD/odom/pose/pose/position/y` 两条序列，再按住**鼠标右键**将选中的两条序列拖入空白绘图区。
 
-3. **关联坐标轴**：
+3. 在 `New XY Curve` 窗口核对 X、Y 数据源。实际轨迹应分别对应 `/MVD/odom/pose/pose/position/x` 和 `/MVD/odom/pose/pose/position/y`。若顺序颠倒，使用 `Swap` 交换，然后确认。
 
-- 将左侧的实际轨迹 `x` 变量按住左键拖拽到视图中作为 X 轴数据。
-
-- 将实际轨迹 `y` 变量拖拽进入作为 Y 轴数据。
-
-- 同样的方法，将期望轨迹的 `x` 和 `y` 也拖入其中。
+4. 对 `/setpoints_cmd/position/x`、`/setpoints_cmd/position/y` 重复同样的操作，把期望轨迹添加到同一图中。
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-6.png" width="950">
+  <img src="../images/week_14/14-8.png" width="950">
   <figcaption></figcaption>
 </figure>
 
 4. 此时，图表中应完美呈现出一个双环的“8”字曲线（Lissajous 曲线）。
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-7.png" width="950">
+  <img src="../images/week_14/14-9.png" width="950">
   <figcaption></figcaption>
 </figure>
 
@@ -145,7 +143,7 @@ rosrun plotjuggler plotjuggler
 3. 将对应的速度变量拖入同一个图表中进行同屏比对。
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-8.png" width="950">
+  <img src="../images/week_14/14-10.png" width="950">
   <figcaption></figcaption>
 </figure>
 
@@ -158,50 +156,55 @@ rosrun plotjuggler plotjuggler
 在软件界面的左下角，找到 `Custom Series` 窗口，鼠标左键点击旁边的 `+` 图标，准备创建自定义派生序列。
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-9.png" width="950">
-  <figcaption></figcaption>
+  <img src="../images/week_14/14-11.png" width="950">
+  <figcaption>鼠标位于 Custom Series 旁的新增按钮，右侧为新建工作区</figcaption>
 </figure>
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-10.png" width="950">
-  <figcaption></figcaption>
+  <img src="../images/week_14/14-12.png" width="950">
+  <figcaption>自定义序列编辑界面，尚未完整配置输入序列和名称</figcaption>
 </figure>
 
 ## 3.2 配置计算公式
 
 - New name (命名)：在上方输入框输入 `diff_x`。
 
-- Input timeseries (主变量)：点击输入框，选择 `/MVD/odom/pose/pose/position/x`。
+- Input timeseries (主变量)：选择 `/MVD/odom/pose/pose/position/x`，拖动至输入框，。
 
-- Additional source timeseries (辅变量)：将左侧列表中的期望指令 `/setpoints_cmd/position/x` 直接拖入下方名为 `v1` 的大白框中。
+- Additional source timeseries (辅变量)：将左侧列表中的期望指令 `/setpoints_cmd/position/x` 直接拖入下方。
 
-- Function (编写脚本)：在右下角的代码输入框中，输入以下 Lua 代码求绝对差值：
-
-- Lua
-
-```Plain Text
-return math.abs(value - v1)
-```
-
-## 3.3 实操
-
-1. 鼠标左键点击右上角的绿色勾选按钮（或回车）保存。
+- Function (time，value)：输入 Lua 代码`return math.abs(value - v1)`求绝对差值：
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-11.png" width="950">
+  <img src="../images/week_14/14-13.png" width="950">
   <figcaption></figcaption>
 </figure>
 
-2. 将左侧新生成的 `diff_x` 拖入空白绘图区，即可直观看到最大的误差波峰（例如约 0\.187m），这为你接下来的调参提供了数字依据。
+## 3.3 保存并查看误差
+
+1. 鼠标左键点击右下角的`Create New Timeseries`，以左侧`Custom Series`出现`diff_x`为成功标志。
+
+2. 对 Y、Z 轴重复计算，得到`diff_y`、`diff_z`。
+
+3. 返回绘图工作区，将`diff_x`、`diff_y`、`diff_z`拖入空白图,进行误差查看。
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-12.png" width="950">
-  <figcaption></figcaption>
+  <img src="../images/week_14/14-14.png" width="950">
+  <figcaption>已生成并拖入工作区的 X 轴绝对误差。图中游标读数是某一时刻的误差，不是全程最大误差</figcaption>
 </figure>
 
 # 实践四：PID 调参实操法则
 
-## 4\.1 调节位置控制 \(Kp\)
+## 4\.1 确认参数与基线
+
+修改前确认运行节点实际加载的配置文件，以及参数在当前控制器代码中的作用和轴向映射。备份原配置，记录基线 Bag、轨迹设置与参数值。
+
+<figure style="flex:1; text-align:center;">
+  <img src="../images/week_14/14-15.png" width="950">
+  <figcaption>课程的<code>ctrl_param_fpv.yaml</code>配置截图。红框标出的是 Kp0、Kp1、Kp2；Kv0、Kv1、Kv2 位于下方，未被红框标注。</figcaption>
+</figure>
+
+## 4\.2 调节位置控制 \(Kp\)
 
 配置文件中的 `Kp0, Kp1, Kp2` 分别对应无人机在 X轴、Y轴、Z轴 的位置比例增益。
 
@@ -210,7 +213,7 @@ return math.abs(value - v1)
 - 🔵 **如果你的图出现“滞后 \(Lag\)”**：实际位置 \(odom\) 响应迟缓，曲线一直在期望指令的后面追，说明比例增益不足 👉 **进入文件，调大对应的 Kp 值**。
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-13.png" width="950">
+  <img src="../images/week_14/14-16.png" width="950">
   <figcaption></figcaption>
 </figure>
 
@@ -223,19 +226,14 @@ return math.abs(value - v1)
 - 🔵 **如果你的速度图出现“跟随无力”**：速度变化平缓，长时间达不到给定的期望速度波峰 👉 **进入文件，调大对应的 Kv 值**提升飞行器的敏捷度。
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-14.png" width="950">
-  <figcaption></figcaption>
-</figure>
-
-<figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-15.png" width="950">
+  <img src="../images/week_14/14-17.jpeg" width="950">
   <figcaption></figcaption>
 </figure>
 
 ## 4\.3 调参最终效果
 
 <figure style="flex:1; text-align:center;">
-  <img src="../images/week_14/14-16.png" width="950">
+  <img src="../images/week_14/14-18.png" width="950">
   <figcaption></figcaption>
 </figure>
 
