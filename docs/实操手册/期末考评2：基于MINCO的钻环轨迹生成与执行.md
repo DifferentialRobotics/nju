@@ -632,6 +632,7 @@ rings:
 ### 3.4 离线校验
 
 ```bash
+cd ~/fly_ws
 python3 sh_file/verify_rings_geometry.py
 ```
 
