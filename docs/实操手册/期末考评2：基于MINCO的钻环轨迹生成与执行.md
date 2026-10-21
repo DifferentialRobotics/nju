@@ -474,4 +474,260 @@
   </video>
 </p>
 
+# `fly_ws`使用教程
+
+## 1. 放置与目录
+
+ZIP 解压后是 `fly_ws/{src, sh_file}`，直接放到家目录：
+
+```bash
+unzip fly_ws.zip -d ~/          # 得到 ~/fly_ws
+cd ~/fly_ws
+ls                              # 应看到 src  sh_file  README.md  README_MOCAP.md
+```
+
+## 2. 编译
+
+### 2.1 依赖
+
+```bash
+sudo apt install -y \
+  ros-noetic-mavros ros-noetic-mavros-extras \
+  ros-noetic-vrpn \
+  ros-noetic-cmake-modules \
+  ros-noetic-gazebo-msgs \
+  ros-noetic-rviz \
+  libeigen3-dev \
+  libarmadillo-dev
+```
+
+| 依赖 | 谁要它 | 说明 |
+|---|---|---|
+| `ros-noetic-mavros` | `px4ctrl` | 下位机通信 |
+| `ros-noetic-vrpn` | `vrpn_client_ros` | 提供 `VRPN` 的 cmake 配置 |
+| `ros-noetic-cmake-modules` | `uav_utils`、`px4ctrl` | `build_depend` 里点名要 |
+| `ros-noetic-gazebo-msgs` | `groundtruth` | 只在 SITL 用 |
+| `ros-noetic-rviz` | `decomp_ros_utils` | rviz 插件，Qt5 硬依赖 |
+| `libeigen3-dev` | `trajectory`/`traj_server`/`px4ctrl`/`decomp_ros_utils` | — |
+| `libarmadillo-dev` | **`pose_utils`** | CMake 里 `find_package(Armadillo REQUIRED)`，package.xml 却没声明，rosdep 查不出来 |
+
+### 2.2 还原顶层 `src/CMakeLists.txt`（唯一必须动的工作空间文件）
+
+**这不是包，是 catkin 工作空间顶层文件。** 压缩包里它被清成了 0 字节（打包时把软链打坏了）。0 字节不会报错，但会让 `catkin_make` 配出一个空工程——编完 `rospack` 一个包都找不到。
+
+```bash
+cd ~/fly_ws/src
+wc -c CMakeLists.txt            # 若是 0，按下面处理
+rm -f CMakeLists.txt
+catkin_init_workspace           # 生成标准 toplevel.cmake
+cd ~/fly_ws
+```
+
+`catkin_init_workspace` 需要先 `source /opt/ros/noetic/setup.bash`。
+
+### 2.3 全量编译（13 个可编译包）
+
+```bash
+source /opt/ros/noetic/setup.bash
+cd ~/fly_ws
+catkin_make -DCATKIN_WHITELIST_PACKAGES="" -j4
+```
+
+- 不用白名单，`src` 下**所有能编译的包全部编**；白名单只在你之前用过、`CMakeCache.txt` 里残留旧值时才需要显式传空串。
+- `decomp_ros_utils` 配置阶段会打印 `Using Qt5 based on the rviz_QT_VERSION: 5.12.8`，属正常。
+- 结尾应是 `[100%] Built target ...`，没有 `Error` / `Failed`。
+
+日常只改了一个包时增量编：
+
+```bash
+catkin_make --pkg px4ctrl
+catkin_make --pkg trajectory
+```
+
+### 2.5 验收
+
+```bash
+source ~/fly_ws/devel/setup.bash
+
+# ① 包数量：应为 13
+rospack list | grep -E \
+ "^(trajectory|traj_server|catkin_simple|cmake_utils|decomp_ros_msgs|decomp_ros_utils|pose_utils|quadrotor_msgs|uav_utils|groundtruth|vrpn_client_ros|vrpn_process|px4ctrl) " | wc -l
+
+# ② 产物清单
+find devel/lib -maxdepth 2 -type f | sort
+
+```
+
+| 包 | 期望产物 |
+|---|---|
+| `trajectory` | `devel/lib/trajectory/traj_gen`、`libtrajectory.so`、`libminco.so` |
+| `traj_server` | `devel/lib/traj_server/traj_server_node` |
+| `px4ctrl` | `devel/lib/px4ctrl/px4ctrl_node` |
+| `quadrotor_msgs` | `libencode_msgs.so`、`libdecode_msgs.so`、`devel/include/quadrotor_msgs/*.h`（26 个消息） |
+| `uav_utils` | 只有头文件（无 .so，正常） |
+| `cmake_utils` | 只有 cmake 宏与 `FindEigen.cmake`（无产物，正常） |
+| `catkin_simple` | 只有 cmake 宏（无产物，正常） |
+| `pose_utils` | `devel/lib/pose_utils/libpose_utils.so` |
+| `decomp_ros_msgs` | `devel/lib/python3/dist-packages/decomp_ros_msgs/` + `devel/include/decomp_ros_msgs/` |
+| `decomp_ros_utils` | `devel/lib/decomp_ros_utils/libdecomp_rviz_plugins.so` |
+| `groundtruth` | `devel/lib/groundtruth/gazebo_odom_node` |
+| `vrpn_client_ros` | `libvrpn_client_ros.so`、`vrpn_client_node`、`vrpn_tracker_node` |
+| `vrpn_process` | `devel/lib/vrpn_process/fusion_odom` |
+
+`uav_utils` / `cmake_utils` / `catkin_simple` 本来就不产出二进制，别因为找不到 `.so` 以为没编过——看 `rospack find` 能否定位到它们即可。
+
+## 3. 穿环：配置流程
+
+穿环不是"改个参数就行"，**几何决定成败**。代码只做一件事：把 `rings` 里的环心按顺序串成一条 MINCO 轨迹，逐点飞过去。
+
+### 3.1 先把环摆对（比调参重要得多）
+
+代码是**只飞环心**模式（`gateApproachDist` 不生效），意味着：
+
+```
+起点 → c1 → c2 → c3 → c4
+```
+
+每一段的出入方向 = **相邻两个环心的连线方向**。所以：
+
+| 规则 | 原因 |
+|---|---|
+| 环面法向 ≈ 来向（上一个环心 → 本环心的方向） | 否则飞机斜着切进环框，桨叶必打框 |
+| 相邻环心间距 ≥ 1.5 m | 太近没有转弯余量，MINCO 会被 `maxAcc` 顶住 |
+| 所有环心高度接近（±0.3 m） | 高度突变会变成"爬升+下降"，浪费航程且易失速 |
+| 首环离起飞点 1.5~2 m，且在起飞点正前方 | 给第一段留加速距离，也避免起飞就贴框 |
+| 环心按**飞行顺序**编号记录 | 顺序写错 = 轨迹乱穿 |
+
+### 3.2 量环心
+
+**方法：临时看话题**
+
+**前置条件：在动捕启动、定位无误的情况下，通过话题进行查看。**
+
+```bash
+rostopic echo -n1 /MVD/odom/pose/pose/position
+```
+
+### 3.3 写进 `traj.yaml`
+
+文件：`src/8fly/src/trajectory/parameters/traj.yaml`
+
+```yaml
+shape: 4                    # ← 必须改成 4，否则永远飞八字
+
+# 穿环段 此处x、y、z仅作演示使用，不可照搬教学示例中的配置
+ringsReturnHome: false      # false: 停在最后一个环；true: 原路返回起点
+rings:
+  - {x: 2.000, y: 0.000, z: 1.300, nx: 1.0, ny: 0.0, nz: 0.0}
+  - {x: 4.000, y: 1.600, z: 1.400, nx: 0.0, ny: 1.0, nz: 0.0}
+  - {x: 6.000, y: 0.000, z: 1.300, nx: 1.0, ny: 0.0, nz: 0.0}
+```
+
+三个必须知道的点：
+
+1. **`z` 是绝对高度**（动捕世界系），不是相对起飞点。起飞高度设 1.5、环心 z=1.3，飞机会先降 0.2 m；
+2. `nx/ny/nz` 在只飞环心模式下**不参与生成**，只做记录，填非零值即可（`loadRings` 会拒绝零向量）；
+3. `rings` 里**不要**把起点写进去，起点是触发瞬间的悬停位置，由代码自动取。
+
+### 3.4 离线校验
+
+```bash
+python3 sh_file/verify_rings_geometry.py
+```
+
+期望输出：
+
+```
+ring[0] c=(2.0, 0.0, 1.3)
+ring[1] c=(4.0, 1.6, 1.4)
+ring[2] c=(6.0, 0.0, 1.3)
+|wps_fwd|=3 |Q|=2 N=3 final=(6.0, 0.0, 1.3)
+GEOMETRY_OK (center-only)
+```
+
+`N = 环数`，`|Q| = 环数 - 1`（Q 是不含首尾的中间点）。
+
+## 4. 启动流程
+
+### 4.1 冷启动顺序（不可乱）
+
+```
+① 动捕软件 → 刚体 MVD 可见 → 检查 VRPN 广播 3883
+② 遥控器 → 模式档 AUTO_HOVER、齿轮档 CMD、四杆回中
+③ 飞机上电 → 等 PX4 自检蜂鸣结束
+④ T1 MAVROS  → T2 VRPN → T3 fusion → T4 px4ctrl → T5 traj
+⑤ 检查 → 起飞 → 挪到起点 → 触发 → 飞行 → 降落
+```
+
+### 4.2 一键启动
+
+```bash
+#终端1
+cd ~/fly_ws && source devel/setup.bash
+./sh_file/run_mocap.sh
+```
+
+### 4.3 起飞 → 触发 → 结束
+
+```bash
+#终端2
+# ① 起飞（约 6 s 到悬停：3s 电机怠速 + 1.5m/0.5m/s ≈ 3s）
+cd ~/fly_ws && source devel/setup.bash
+./sh_file/takeoff.sh
+# 期望：MANUAL_CTRL(L1) --> AUTO_TAKEOFF --> AUTO_HOVER(L2)
+
+# ② 用摇杆把飞机挪到"第一个环前 1.5~2 m、机头朝向第一个环"的位置
+#    松杆，等 1~2 s，速度 < 0.3 m/s（触发门限）
+
+#终端3
+# ③ 触发穿环
+cd ~/fly_ws && source devel/setup.bash
+./sh_file/pub_trigger.sh
+# 期望：[traj_gen] RINGS trigger from hover (x, y, z), yaw=..., 3 gates
+#       [traj_gen] published traj: segments=3, duration≈Xs
+#       随后 px4ctrl: AUTO_HOVER(L2) --> CMD_CTRL(L3)
+
+#终端4
+# ④ 飞完自动停：traj_server 停止发指令 → 0.5s 后自动回 AUTO_HOVER
+cd ~/fly_ws && source devel/setup.bash
+./sh_file/land.sh
+# 期望：AUTO_HOVER(L2) --> AUTO_LAND
+```
+
+### 4.4 换一组环之后要做什么
+
+| 改动 | 操作 | 要不要重编译 |
+|---|---|---|
+| 改 `rings` / `shape` / `maxVel` | **重启 终端1**（yaml 只在节点启动时读一次） | 不要 |
+| 改 `ctrl_param_fpv.yaml` | 重启 终端1 | 不要 |
+| 改 `takeoff_height` | 重启 终端1 | 不要 |
+| 改 `.cpp` / `.hpp` | `catkin_make --pkg trajectory` 等 | 要 |
+| 改 launch 文件 | 重启对应节点 | 不要 |
+
+## 5. 参数说明
+
+### 5.1 `traj.yaml`（轨迹层）
+
+| 参数 | 默认 | 作用 | 穿环建议 | 是否真生效 |
+|---|---|---|---|---|
+| `shape` | 0 | 0 八字 / 1 圆 / 2 星 / 3 S / 4 穿环 | **必须 4** | ✅ |
+| `rings` | 4 个占位 | 环心列表，顺序=飞行顺序 | 用实测值替换 | ✅ |
+| `ringsReturnHome` | false | true：飞到最后一个环后原路返回起点 | 演示建议 true | ✅ |
+| `maxVel` | 2.0 | 参考速度上限，决定轨迹总时长（越大越快） | 首飞 1.0 | ✅ |
+| `maxAcc` | 5.0 | 参考加速度上限，决定过弯"硬度" | 首飞 2.0 | ✅ |
+| `dt` | 0.05 | 可视化轨迹点间隔 | 不动 | ✅（仅 RViz） |
+| `K` | 32 | MINCO 每段采样数，越大越平滑越慢 | 不动 | ✅ |
+| `rhoT` | 10000 | 时间惩罚（越大越保守、越慢） | 不动 | ✅ |
+| `rhoV` | 100000 | 速度惩罚 | 不动 | ✅ |
+| `rhoA` | 100000 | 加速度惩罚 | 不动 | ✅ |
+| `eightWidth/ eightLength` | 5.0 / 10.0 | 八字尺寸 | 穿环时不看 | 仅 shape=0 |
+| `circleRadius` | 2.0 | 圆半径 | 不看 | 仅 shape=1 |
+| `starRadius` | 3.0 | 星形半径 | 不看 | 仅 shape=2 |
+| `sWidth/sLength` | 3.0 / 14.0 | S 形尺寸 | 不看 | 仅 shape=3 |
+| `height` | 1.00 | — | — | ❌ **无效**，高度由 `takeoff_height` 决定 |
+| `startX/Y` `endX/Y` | 0 | — | — | ❌ 无效（只读不用） |
+| `gateApproachDist` | 0.5 | — | — | ❌ 无效（只飞环心） |
+| `rings[].nx/ny/nz` | — | 环法向 | 填 `1,0,0` 等占位即可 | ❌ 不参与生成 |
+| `pauseDebug` | false | MINCO 调试暂停 | 保持 false | ✅ |
+
 
